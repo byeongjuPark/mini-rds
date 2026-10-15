@@ -66,6 +66,18 @@ func ConfigureReplication(primaryDB, replicaDB *sql.DB, primaryHost, rootPass st
 		return fmt.Errorf("복제 시작 실패: %w", err)
 	}
 
+	// 초기화와 복제 설정이 끝난 Replica에 읽기 전용 적용
+	readOnlyQueries := []string{
+		"SET GLOBAL read_only = ON",
+		"SET GLOBAL super_read_only = ON",
+	}
+
+	for _, q := range readOnlyQueries {
+		if _, err := replicaDB.Exec(q); err != nil {
+			return fmt.Errorf("Replica 읽기 전용 설정 실패: %w", err)
+		}
+	}
+
 	log.Println("[MySQLCtl] GTID 기반 Primary -> Replica 복제 파이프라인 연결 완료")
 
 	return nil

@@ -42,7 +42,7 @@ func main() {
 		Name: config.PrimaryContainer, HostPort: config.PrimaryPort, ServerID: 101, ReadOnly: false,
 	}
 	replicaSpec := provisioner.NodeSpec{
-		Name: config.ReplicaContainer, HostPort: config.ReplicaPort, ServerID: 102, ReadOnly: true,
+		Name: config.ReplicaContainer, HostPort: config.ReplicaPort, ServerID: 102, ReadOnly: false,
 	}
 
 	if err := prov.StartMySQLContainer(ctx, primarySpec); err != nil {
