@@ -77,7 +77,7 @@ FAILOVER 절차
 3. L4 Proxy 라우팅 전환 및 기존 연결 끊기
 */
 func (o *FailOverOrchestrator) executeFailover(ctx context.Context) {
-	log.Println("[Failover 1/3] 기존 Primary(%s) 펜싱(Fencing) 중...", o.primaryContainer)
+	log.Printf("[Failover 1/3] 기존 Primary(%s) 펜싱(Fencing) 중... \n", o.primaryContainer)
 	_ = o.prov.FenceContainer(ctx, o.primaryContainer)
 
 	log.Println("[Failover 2/3] Replica를 Primary로 승격(Promotion) 중...")

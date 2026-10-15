@@ -74,7 +74,7 @@ func main() {
 	l4Proxy := proxy.NewL4Proxy(config.ProxyAddr, "127.0.0.1:"+config.PrimaryPort)
 	go func() {
 		if err := l4Proxy.Start(ctx); err != nil {
-			log.Fatalf("프록시 오류: %v, err")
+			log.Fatalf("프록시 오류: %v", err)
 		}
 	}()
 	time.Sleep(500 * time.Millisecond)
