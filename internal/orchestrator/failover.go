@@ -40,7 +40,7 @@ func (o *FailOverOrchestrator) Start(ctx context.Context) {
 	failCount := 0
 	failedOver := false
 
-	// 두 개의 채널 중 먼저 온느 신호를 기다림(ctx.Done(), ticker.C)
+	// 두 개의 채널 중 먼저 오는 신호를 기다림(ctx.Done(), ticker.C)
 	for {
 		select {
 		case <-ctx.Done(): // 프로그램 종료 신호
@@ -72,7 +72,7 @@ func (o *FailOverOrchestrator) Start(ctx context.Context) {
 
 /*
 FAILOVER 절차
-1. 기존 Rrimary 컨테이너 펜싱
+1. 기존 Primary 컨테이너 펜싱
 2. Replica를 Primary로 승격
 3. L4 Proxy 라우팅 전환 및 기존 연결 끊기
 */

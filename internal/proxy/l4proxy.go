@@ -13,8 +13,8 @@ import (
 type L4Proxy struct {
 	listenAddr  string                // 프록시가 클라이언트 접속을 기다릴 주소
 	mu          sync.RWMutex          // 고루틴이 동시 변수 접근 시 방지
-	targetAddr  string                // 데이터를 전당할 백엔드 MySQL의 주소
-	activeConns map[net.Conn]struct{} // 현재 연결된 네티워크 연결 목록 맵
+	targetAddr  string                // 데이터를 전달할 백엔드 MySQL의 주소
+	activeConns map[net.Conn]struct{} // 현재 연결된 네트워크 연결 목록 맵
 }
 
 // L4Proxy 생성함수
@@ -54,7 +54,7 @@ func (p *L4Proxy) Start(ctx context.Context) error {
 	}
 }
 
-// 타겟을 읽기 전에 Read Rock을 걸어 주소 보호
+// 타겟을 읽기 전에 Read Lock을 걸어 주소 보호
 func (p *L4Proxy) GetTarget() string {
 	p.mu.RLock()
 	defer p.mu.RUnlock()
@@ -105,7 +105,7 @@ func (p *L4Proxy) handleConnection(clientConn net.Conn) {
 	}()
 
 	done := make(chan struct{}, 2) // 작업이 끝났음을 알리는 신호용 채널
-	go func() {                    // 클라이언트 -> DB 방ㅎ
+	go func() {                    // 클라이언트 -> DB 방향
 		_, _ = io.Copy(backendConn, clientConn)
 		done <- struct{}{}
 	}()
