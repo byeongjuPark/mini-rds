@@ -9,7 +9,7 @@ docker pull mysql:8.0
 
 go get github.com/docker/docker@v27.3.1+incompatible
 go get github.com/docker/go-connections@v0.5.0
-go get github.com/go-sql-driver/mysql@v1.8.1
+go get github.com/go-sql-driver/mysql@v1.10.1
 
 go mod tidy
 ```
